@@ -34,7 +34,6 @@ class Mai_Assessments {
 	}
 
 	function hooks() {
-		add_action( 'admin_footer',                 array( $this, 'ajax' ) );
 		add_action( 'init',                         array( $this, 'wpforms_process' ) );
 		add_shortcode( 'mai_assessment_no_results', array( $this, 'assessment_no_results' ) );
 		add_shortcode( 'mai_assessment_results',    array( $this, 'assessment_results' ) );

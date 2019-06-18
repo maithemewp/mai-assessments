@@ -143,6 +143,7 @@ final class Mai_Assessments_Plugin {
 	public function hooks() {
 
 		add_action( 'admin_init', array( $this, 'updater' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'plugin_settings_link' ) );
 
 		register_activation_hook( __FILE__, array( $this, 'activate' ) );
 		register_deactivation_hook( __FILE__, 'flush_rewrite_rules' );
@@ -171,6 +172,11 @@ final class Mai_Assessments_Plugin {
 
 		// Setup the updater.
 		$updater = Puc_v4_Factory::buildUpdateChecker( 'https://github.com/maithemewp/mai-assessments/', __FILE__, 'mai-assessments' );
+	}
+
+	function plugin_settings_link( $actions ) {
+		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=assessment-results' ), __( 'Settings', 'mai-assessments' ) );
+		return $actions;
 	}
 
 }
