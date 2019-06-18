@@ -302,6 +302,9 @@ class Mai_Assessments {
 			return;
 		}
 
+		// Start the page HTML.
+		$html = '';
+
 		// Get current user ID.
 		$user_id = get_current_user_id();
 
@@ -336,38 +339,43 @@ class Mai_Assessments {
 
 
 			// Low.
-			if ( isset( $result['low_max'] ) && ( $score <= $result['low_max'] ) ) {
+			if ( isset( $result['low_max'] ) && ( (int) $score <= (int) $result['low_max'] ) ) {
 				if ( isset( $result['low_content'] ) && ! empty( $result['low_content'] ) ) {
 					$content = wp_kses_post( $result['low_content'] );
 					$content = mai_get_processed_content( $content );
 					$content = str_replace( '{name}', $name_html, $content );
 					$content = str_replace( '{score}', $score_html, $content );
-					return sprintf( '<div class="maia-results low-score">%s</div>', $content );
+					$html .= sprintf( '<div class="maia-results low-score">%s</div>', $content );
+					continue;
 				}
 			}
 
 			// Medium.
-			if ( isset( $result['medium_max'] ) && ( $score <= $result['medium_max'] ) ) {
+			if ( isset( $result['medium_max'] ) && ( (int) $score <= (int) $result['medium_max'] ) ) {
 				if ( isset( $result['medium_content'] ) && ! empty( $result['medium_content'] ) ) {
 					$content = wp_kses_post( $result['medium_content'] );
 					$content = mai_get_processed_content( $content );
 					$content = str_replace( '{name}', $name_html, $content );
 					$content = str_replace( '{score}', $score_html, $content );
-					return sprintf( '<div class="maia-results medium-score">%s</div>', $content );
+					$html .= sprintf( '<div class="maia-results medium-score">%s</div>', $content );
+					continue;
 				}
 			}
 
 			// High.
-			if ( isset( $result['high_max'] ) && ( $score <= $result['high_max'] ) ) {
+			if ( isset( $result['high_max'] ) && ( (int) $score <= (int) $result['high_max'] ) ) {
 				if ( isset( $result['high_content'] ) && ! empty( $result['high_content'] ) ) {
 					$content = wp_kses_post( $result['high_content'] );
 					$content = mai_get_processed_content( $content );
 					$content = str_replace( '{name}', $name_html, $content );
 					$content = str_replace( '{score}', $score_html, $content );
-					return sprintf( '<div class="maia-results high-score">%s</div>', $content );
+					$html .= sprintf( '<div class="maia-results high-score">%s</div>', $content );
+					continue;
 				}
 			}
 		}
+
+		return $html;
 	}
 
 	function get_form_ids() {
