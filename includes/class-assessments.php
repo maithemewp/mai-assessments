@@ -1,43 +1,5 @@
 <?php
 
-function tester_write_to_file( $value ) {
-	/**
-	 * This function for testing & debuggin only.
-	 * Do not leave this function working on your site.
-	 */
-	$file   = dirname( __FILE__ ) . '/__data.txt';
-	$handle = fopen( $file, 'a' );
-	ob_start();
-	if ( is_array( $value ) || is_object( $value ) ) {
-		print_r( $value );
-	} elseif ( is_bool( $value ) ) {
-		var_dump( $value );
-	} else {
-		echo $value;
-	}
-	echo "\r\n\r\n";
-	fwrite( $handle, ob_get_clean() );
-	fclose( $handle );
-}
-
-add_action( 'genesis_before_entry_content', function() {
-
-	// Bail if user not logged in.
-	if ( ! is_user_logged_in() ) {
-		return;
-	}
-
-	// Bail if ACF is not active.
-	if ( ! function_exists( 'get_field' ) ) {
-		return;
-	}
-
-
-	// $score = get_user_meta( get_current_user_id(), 'assessment_score_control', true );
-
-	// vd( $score );
-});
-
 class Mai_Assessments {
 
 	protected $forms;
@@ -65,7 +27,6 @@ class Mai_Assessments {
 	}
 
 	function fields() {
-
 		add_filter( 'acf/settings/load_json',                     array( $this, 'load_json' ) );
 		add_filter( 'acf/load_field/key=field_5d030114b992e',     array( $this, 'load_field' ) );
 		add_filter( 'acf/validate_value/key=field_5d030114b992e', array( $this, 'validate_value' ), 10, 4 );
@@ -448,6 +409,7 @@ class Mai_Assessments {
 
 }
 
+// Get it started.
 add_action( 'after_setup_theme', function() {
 	new Mai_Assessments;
 });
