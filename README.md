@@ -9,5 +9,5 @@ Assessment management, scores, and results via WP Forms and ACF Pro.
 
 ## TODO
 * Build custom block instead of shortcode for assessment results.
-* Allow choosing forms from saved assessments (in the option value) to only show results for specific forms.
 * Add a WYSIWYG field to allow specific text if there are no results (haven't taken the assessment yet).
+* ~~Allow choosing forms from saved assessments (in the option value) to only show results for specific forms.~~ **Done!**
