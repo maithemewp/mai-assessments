@@ -5,7 +5,7 @@ Assessment management, scores, and results via WP Forms and ACF Pro.
 * Build assessment forms with likert fields via WP Forms plugin.
 * Visit Dashboard > WPForms > Assessment Results to configure form results settings and content.
 * Use `[mai_assessment_results]` shortcode to display all assessment results on a single page.
-* Use `[mai_assessment_results ids="456"]` to display results for one or more forms by ID.
+* Use `[mai_assessment_results ids="456"]` or `[mai_assessment_results ids="456,123"]` to display results for one or more forms by ID.
 
 ## TODO
 * Build shortcode for assessment score by form ID.
