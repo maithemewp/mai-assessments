@@ -4,7 +4,7 @@
  * Plugin Name:     Mai Assessments
  * Plugin URI:      https://maitheme.com
  * Description:     Assessment management, scores, and results via WP Forms and ACF Pro.
- * Version:         0.1.1
+ * Version:         0.2.0
  *
  * Author:          BizBudding, Mike Hemberger
  * Author URI:      https://bizbudding.com
@@ -90,7 +90,7 @@ final class Mai_Assessments_Plugin {
 
 		// Plugin version.
 		if ( ! defined( 'MAI_ASSESSMENTS_VERSION' ) ) {
-			define( 'MAI_ASSESSMENTS_VERSION', '0.1.1' );
+			define( 'MAI_ASSESSMENTS_VERSION', '0.2.0' );
 		}
 
 		// Plugin Folder Path.
