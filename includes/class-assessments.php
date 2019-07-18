@@ -37,6 +37,7 @@ class Mai_Assessments {
 		add_action( 'init',                         array( $this, 'wpforms_process' ) );
 		add_shortcode( 'mai_assessment_no_results', array( $this, 'assessment_no_results' ) );
 		add_shortcode( 'mai_assessment_results',    array( $this, 'assessment_results' ) );
+		add_shortcode( 'mai_assessment_score',      array( $this, 'assessment_score' ) );
 	}
 
 	/**
@@ -277,6 +278,81 @@ class Mai_Assessments {
 		// $form_ids = $this->get_form_ids();
 	}
 
+	function assessment_score( $atts ) {
+
+		// Bail if not logged in.
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
+
+		// Shortcode attributes.
+		$atts = shortcode_atts( array(
+			'id' => '', // Comma separated form IDs.
+		), $atts, 'mai_assessment_results' );
+
+		// Sanitize attributes.
+		$atts = array(
+			'id' => absint( $atts['id'] ),
+		);
+
+		// Bail if no form ID.
+		if ( ! $atts['id'] ) {
+			return;
+		}
+
+		// Get data.
+		$results = get_option( 'assessment_results' );
+
+		// Bail if no results.
+		if ( ! $results ) {
+			return;
+		}
+
+		// Bail if no results for this form.
+		if ( ! isset( $results[ $atts['id'] ] ) ) {
+			return;
+		}
+
+		// Build the key.
+		$meta_key = sprintf( 'mai_assessment_%s', $atts['id'] );
+
+		// Get users score.
+		$score = get_user_meta( get_current_user_id(), $meta_key, true );
+
+		// Bail if no score.
+		if ( ! $score ) {
+			return;
+		}
+
+		$score = absint( $score );
+
+		// Start the page HTML.
+		$html = '<div class="maia-score" style="background: #f9f9f9;font-weight: bold;padding: 24px;margin-bottom: 24px;border: 1px solid #e6e6e6;overflow: hidden;">';
+
+			// Get the results for this form.
+			$result = $results[ $atts['id'] ];
+
+			// Low.
+			if ( isset( $result['low_max'] ) && ( $score <= (int) $result['low_max'] ) ) {
+				$level = __( 'Low', 'mai-assessments' );
+			}
+			// Medium.
+			elseif ( isset( $result['medium_max'] ) && ( $score <= (int) $result['medium_max'] ) ) {
+				$level = __( 'Medium', 'mai-assessments' );
+			}
+			// High.
+			elseif ( isset( $result['high_max'] ) && ( $score <= (int) $result['high_max'] ) ) {
+				$level = __( 'High', 'mai-assessments' );
+			}
+
+			$html .= sprintf( '<span class="maia-score-level" style="background: #f1f1f1;padding: 4px 12px;margin-left: auto;float: right;text-transform: uppercase;font-size: 14px;letter-spacing: 1px;border: 1px solid rgba(0,0,0,.2);border-radius: 64px;">%s</span>', $level );
+			$html .= sprintf( '<p style="margin-top: 4px;margin-bottom: 0;">%s</p>', sprintf( __( 'You scored %s on this assessment.', 'mai-assessments' ), $score ) );
+
+		$html .= '</div>';
+
+		return $html;
+	}
+
 	function assessment_results( $atts ) {
 
 		// Bail if not logged in.
@@ -290,9 +366,11 @@ class Mai_Assessments {
 		), $atts, 'mai_assessment_results' );
 
 		// Sanitize attributes.
-		$atts = array(
-			'ids' => $atts['ids'] ? array_map( 'trim', explode( ',', $atts['ids'] ) ) : '',
-		);
+		if ( $atts['ids'] ) {
+			$atts['ids'] = explode( ',', $atts['ids'] );
+			$atts['ids'] = array_map( 'trim', $atts['ids'] );
+			$atts['ids'] = array_map( 'absint', $atts['ids'] );
+		}
 
 		// Get data.
 		$results = get_option( 'assessment_results' );
