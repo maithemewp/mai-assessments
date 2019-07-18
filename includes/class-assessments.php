@@ -346,7 +346,7 @@ class Mai_Assessments {
 			}
 
 			$html .= sprintf( '<span class="maia-score-level" style="background: #f1f1f1;padding: 4px 12px;margin-left: auto;float: right;text-transform: uppercase;font-size: 14px;letter-spacing: 1px;border: 1px solid rgba(0,0,0,.2);border-radius: 64px;">%s</span>', $level );
-			$html .= sprintf( '<p style="margin-top: 4px;margin-bottom: 0;">%s</p>', sprintf( __( 'You scored %s on this assessment.', 'mai-assessments' ), $score ) );
+			$html .= sprintf( '<p style="margin-top: 2px;margin-bottom: 0;">%s</p>', sprintf( __( 'You scored %s on this assessment.', 'mai-assessments' ), $score ) );
 
 		$html .= '</div>';
 
