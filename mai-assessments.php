@@ -175,8 +175,11 @@ final class Mai_Assessments_Plugin {
 	}
 
 	function plugin_settings_link( $actions ) {
-		$actions[] = sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=assessment-results' ), __( 'Settings', 'mai-assessments' ) );
-		return $actions;
+		// Prepend so Settings renders before the Deactivate link.
+		$custom = array(
+			'settings' => sprintf( '<a href="%s">%s</a>', admin_url( 'admin.php?page=assessment-results' ), __( 'Settings', 'mai-assessments' ) ),
+		);
+		return array_merge( $custom, $actions );
 	}
 
 }
